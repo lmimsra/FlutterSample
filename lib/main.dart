@@ -10,7 +10,7 @@ class RootWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'privante'),
     );
   }
 }
@@ -25,6 +25,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  var _buttonText = 'Default';
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void _incrementCounter() {
     setState(() {
@@ -35,8 +37,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
+        leading: IconButton(
+          icon: Icon(Icons.account_circle), onPressed: () {
+            _scaffoldKey.currentState.openDrawer();
+        },
+        ),
       ),
       body: Center(
         child: Column(
@@ -49,6 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.display1,
             ),
+            Text(
+              _buttonText,
+              style: TextStyle(
+                fontSize: 32,
+                fontStyle: FontStyle.italic
+              ),
+            )
           ],
         ),
       ),
@@ -57,23 +72,75 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: new BottomNavigationBar(
-          items: [
-            new BottomNavigationBarItem(
-              icon: const Icon(Icons.dashboard),
-              title: new Text('ホーム'),
-            ),
+      bottomNavigationBar: new BottomNavigationBar(items: [
+        new BottomNavigationBarItem(
+          icon: const Icon(Icons.featured_play_list),
+          title: new Text('タイムライン'),
+        ),
+        new BottomNavigationBarItem(
+          icon: const Icon(Icons.playlist_add_check),
+          title: new Text('Myイベント'),
+        ),
+        new BottomNavigationBarItem(
+          icon: const Icon(Icons.search),
+          title: new Text('検索'),
+        )
+      ]),
+      // サイドメニュー
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Text(
+                'menu',
+                style: TextStyle(fontSize: 24, color: Colors.white),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blue,
 
-            new BottomNavigationBarItem(
-              icon: const Icon(Icons.control_point),
-              title: new Text('Myイベント'),
+              ),
+              // padding margin の設定
+              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              margin: EdgeInsets.only(bottom: 8.0),
             ),
-
-            new BottomNavigationBarItem(
-              icon: const Icon(Icons.person),
-              title: new Text('ユーザー'),
-            )
-          ]
+            ListTile(
+              title: Text('Los Angeles'),
+              onTap: () {
+                setState(() => _buttonText = 'Los Angeles, CA');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Honolulu'),
+              onTap: () {
+                setState(() => _buttonText = 'Honolulu, HI');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Dallas'),
+              onTap: () {
+                setState(() => _buttonText = 'Dallas, TX');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Seattle'),
+              onTap: () {
+                setState(() => _buttonText = 'Seattle, WA');
+                Navigator.pop(context);
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text('Tokyo'),
+              onTap: () {
+                setState(() => _buttonText = 'Tokyo, Japan');
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
