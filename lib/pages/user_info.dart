@@ -5,6 +5,6 @@ class UserInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return null;
+    return Text('ユーザー情報');
   }
 }

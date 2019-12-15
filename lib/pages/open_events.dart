@@ -5,6 +5,6 @@ class OpenEventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return null;
+    return Text('公開イベント');
   }
 }

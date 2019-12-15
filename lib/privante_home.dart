@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sample_flutter_app/pages/my_events.dart';
+import 'package:sample_flutter_app/pages/open_events.dart';
+import 'package:sample_flutter_app/pages/search_events.dart';
+import 'package:sample_flutter_app/pages/user_info.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -20,6 +24,31 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget switchPages() {
+    switch (_currentIndex) {
+      case 0:
+        return OpenEventsScreen();
+        break;
+      case 1:
+        return MyEventsScreen();
+        break;
+      case 2:
+        return SearchEventsScreen();
+        break;
+      case 3:
+        return UserInfoScreen();
+        break;
+      default:
+        {
+          return OpenEventsScreen();
+        }
+    }
+  }
+
+  int getCurrentIndex() {
+    return _currentIndex == 3 ? 0 : _currentIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,27 +62,25 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Text(
-              _buttonText,
-              style: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
-            )
-          ],
-        ),
-      ),
-//      body: MaterialApp(
-//
+//      body: Center(
+//        child: Column(
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          children: <Widget>[
+//            Text(
+//              'You have pushed the button this many times:',
+//            ),
+//            Text(
+//              '$_counter',
+//              style: Theme.of(context).textTheme.display1,
+//            ),
+//            Text(
+//              _buttonText,
+//              style: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
+//            )
+//          ],
+//        ),
 //      ),
+      body: switchPages(),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -74,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
             title: new Text('検索'),
           )
         ],
-        currentIndex: _currentIndex,
+        currentIndex: getCurrentIndex(),
         onTap: (int index) {
           setState(() {
             this._currentIndex = index;
@@ -98,9 +125,12 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: EdgeInsets.only(bottom: 8.0),
             ),
             ListTile(
-              title: Text('Los Angeles'),
+              title: Text('ユーザー情報'),
               onTap: () {
-                setState(() => _buttonText = 'Los Angeles, CA');
+                setState(() {
+                  _buttonText = 'Los Angeles, CA';
+                  _currentIndex = 3;
+                });
                 Navigator.pop(context);
               },
             ),
