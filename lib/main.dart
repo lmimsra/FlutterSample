@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sample_flutter_app/privante_home.dart';
+import 'package:privante/privante_home.dart';
 
 void main() => runApp(RootWidget());
 

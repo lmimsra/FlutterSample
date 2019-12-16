@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sample_flutter_app/pages/my_events.dart';
-import 'package:sample_flutter_app/pages/open_events.dart';
-import 'package:sample_flutter_app/pages/search_events.dart';
-import 'package:sample_flutter_app/pages/user_info.dart';
+import 'package:privante/pages/my_events.dart';
+import 'package:privante/pages/open_events.dart';
+import 'package:privante/pages/search_events.dart';
+import 'package:privante/pages/user_info.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget switchPages() {
     switch (_currentIndex) {
       case 0:
-        return OpenEventsScreen();
+        return OpenEventsScreen(count: _counter,);
         break;
       case 1:
         return MyEventsScreen();
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
         break;
       default:
         {
-          return OpenEventsScreen();
+          return OpenEventsScreen(count: _counter,);
         }
     }
   }
