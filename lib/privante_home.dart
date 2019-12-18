@@ -33,9 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
         return MyEventsScreen();
         break;
       case 2:
-        return SearchEventsScreen();
-        break;
-      case 3:
         return UserInfoScreen();
         break;
       default:
@@ -46,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   int getCurrentIndex() {
-    return _currentIndex == 3 ? 0 : _currentIndex;
+    return _currentIndex == 2 ? 0 : _currentIndex;
   }
 
   @override
@@ -89,16 +86,17 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: new BottomNavigationBar(
         items: [
           new BottomNavigationBarItem(
-            icon: const Icon(Icons.featured_play_list),
-            title: new Text('公開イベント'),
-          ),
-          new BottomNavigationBarItem(
             icon: const Icon(Icons.playlist_add_check),
-            title: new Text('Myイベント'),
+            title: new Text('登録済みイベント'),
           ),
+//          new BottomNavigationBarItem(
+//            icon: const Icon(Icons.search),
+//            title: new Text('検索'),
+//            backgroundColor: Colors.blue
+//          ),
           new BottomNavigationBarItem(
-            icon: const Icon(Icons.search),
-            title: new Text('検索'),
+            icon: const Icon(Icons.border_color),
+            title: new Text('Myイベント'),
           )
         ],
         currentIndex: getCurrentIndex(),
@@ -129,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 setState(() {
                   _buttonText = 'Los Angeles, CA';
-                  _currentIndex = 3;
+                  _currentIndex = 2;
                 });
                 Navigator.pop(context);
               },
@@ -157,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Divider(),
             ListTile(
-              title: Text('Tokyo'),
+              title: Text('お問合せ'),
               onTap: () {
                 setState(() => _buttonText = 'Tokyo, Japan');
                 Navigator.pop(context);
