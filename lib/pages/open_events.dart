@@ -26,8 +26,8 @@ class OpenEventsScreen extends StatelessWidget {
                   'https://bulma.io/images/placeholders/96x96.png',
               ),
               title: Row(children: <Widget>[
-                Text('test name $i'),
-                Text('test other $i')
+                Text('connect event test name $i'),
+                Text(' test other $i')
               ]),
               subtitle: Container(
                 padding: EdgeInsets.only(top: 5.0),
