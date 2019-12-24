@@ -5,6 +5,12 @@ class SearchEventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('イベント検索');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('イベント検索'),
+      ),
+      body: Text('privante イベント検索ページ'),
+
+    );
   }
 }

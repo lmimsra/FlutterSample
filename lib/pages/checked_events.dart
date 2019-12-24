@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class OpenEventsScreen extends StatelessWidget {
-  OpenEventsScreen({Key key, @required this.count}) : super(key: key);
+class CheckedEventsScreen extends StatelessWidget {
+  CheckedEventsScreen({Key key, @required this.count}) : super(key: key);
   final int count;
 
   List<Widget> getItemList() {
@@ -23,15 +23,23 @@ class OpenEventsScreen extends StatelessWidget {
             ),
             ListTile(
               leading: Image.network(
-                  'https://bulma.io/images/placeholders/96x96.png',
+                'https://bulma.io/images/placeholders/96x96.png',
               ),
               title: Row(children: <Widget>[
-                Text('connect event test name $i'),
-                Text(' test other $i')
+                Flexible(
+                  child: Text(
+                      'checked event test name aaaaaa aaaa aaaaaa aaaa aaaaaa $i'),
+                )
               ]),
               subtitle: Container(
                 padding: EdgeInsets.only(top: 5.0),
-                child: Text("message $i"),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Text("message message message message message message message message$i"),
+                    ),
+                  ],
+                ),
               ),
             )
           ],

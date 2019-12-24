@@ -5,6 +5,12 @@ class UserInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('ユーザー情報');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ユーザー情報'),
+      ),
+      body: Text('privante ユーザー情報ページ'),
+
+    );
   }
 }
