@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:privante/pages/my_events.dart';
-import 'package:privante/pages/open_events.dart';
+import 'package:privante/pages/checked_events.dart';
 import 'package:privante/pages/search_events.dart';
 import 'package:privante/pages/user_info.dart';
 
@@ -18,26 +18,46 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   Widget switchPages() {
     switch (_currentIndex) {
       case 0:
-        return OpenEventsScreen(count: _counter,);
+        return CheckedEventsScreen(count: _counter,);
         break;
       case 1:
         return MyEventsScreen();
         break;
-      case 2:
-        return UserInfoScreen();
+      default:
+        {
+          return CheckedEventsScreen(count: _counter,);
+        }
+    }
+  }
+
+  void _pushNavigate(){
+    switch (_currentIndex) {
+      case 0:
+        Navigator.pushNamed(context, '/eventSearch');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/eventSearch');
         break;
       default:
         {
-          return OpenEventsScreen(count: _counter,);
+        }
+    }
+  }
+
+  Icon _getFloatButtonIcon() {
+    switch (_currentIndex) {
+      case 0:
+        return Icon(Icons.search);
+        break;
+      case 1:
+        return Icon(Icons.add);
+        break;
+      default:
+        {
+          return Icon(Icons.error);
         }
     }
   }
@@ -79,9 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
 //      ),
       body: switchPages(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: _pushNavigate,
+        tooltip: 'navigate',
+        child: _getFloatButtonIcon(),
       ),
       bottomNavigationBar: new BottomNavigationBar(
         items: [
@@ -125,11 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: Text('ユーザー情報'),
               onTap: () {
-                setState(() {
-                  _buttonText = 'Los Angeles, CA';
-                  _currentIndex = 2;
-                });
                 Navigator.pop(context);
+                Navigator.pushNamed(context, '/userInfo');
               },
             ),
             ListTile(
