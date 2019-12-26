@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'event_detail.dart';
+
 class CheckedEventsScreen extends StatelessWidget {
   CheckedEventsScreen({Key key, @required this.count}) : super(key: key);
   final int count;
@@ -22,26 +24,36 @@ class CheckedEventsScreen extends StatelessWidget {
               height: 10.0,
             ),
             ListTile(
-              leading: Image.network(
-                'https://bulma.io/images/placeholders/96x96.png',
-              ),
-              title: Row(children: <Widget>[
-                Flexible(
-                  child: Text(
-                      'checked event test name aaaaaa aaaa aaaaaa aaaa aaaaaa $i'),
-                )
-              ]),
-              subtitle: Container(
-                padding: EdgeInsets.only(top: 5.0),
-                child: Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: Text("message message message message message message message message$i"),
-                    ),
-                  ],
+                leading: Image.network(
+                  'https://bulma.io/images/placeholders/96x96.png',
                 ),
-              ),
-            )
+                title: Row(children: <Widget>[
+                  Flexible(
+                    child: Text(
+                        'checked event test name aaaaaa aaaa aaaaaa aaaa aaaaaa $i'),
+                  )
+                ]),
+                subtitle: Container(
+                  padding: EdgeInsets.only(top: 5.0),
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Text(
+                            "message message message message message message message message$i"),
+                      ),
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => EventDetailScreen(
+                        eventPath: '/checkedEvents/$i',
+                      ),
+                    ),
+                  );
+                })
           ],
         ),
       ),

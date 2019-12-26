@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:privante/pages/event_detail.dart';
 
 class MyEventsScreen extends StatelessWidget {
   MyEventsScreen({Key key}) : super(key: key);
@@ -15,18 +16,28 @@ class MyEventsScreen extends StatelessWidget {
               height: 10.0,
             ),
             ListTile(
-              leading: Image.network(
-                'https://bulma.io/images/placeholders/96x96.png',
-              ),
-              title: Row(children: <Widget>[
-                Text('my testevent name $i'),
-                Text(' test other $i')
-              ]),
-              subtitle: Container(
-                padding: EdgeInsets.only(top: 5.0),
-                child: Text("message $i"),
-              ),
-            )
+                leading: Image.network(
+                  'https://bulma.io/images/placeholders/96x96.png',
+                ),
+                title: Row(children: <Widget>[
+                  Text('my testevent name $i'),
+                  Text(' test other $i')
+                ]),
+                subtitle: Container(
+                  padding: EdgeInsets.only(top: 5.0),
+                  child: Text("message $i"),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => EventDetailScreen(
+                        isMyEvent: true,
+                        eventPath: '/myEvents/$i',
+                      ),
+                    ),
+                  );
+                })
           ],
         ),
       ),
