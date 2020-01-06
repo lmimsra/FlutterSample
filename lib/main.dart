@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:privante/pages/help.dart';
 import 'package:privante/pages/search_events.dart';
 import 'package:privante/pages/user_info.dart';
 import 'package:privante/privante_home.dart';
@@ -17,6 +18,7 @@ class RootWidget extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/userInfo': (BuildContext context) => UserInfoScreen(),
         '/eventSearch': (BuildContext context) => SearchEventsScreen(),
+        '/help': (BuildContext context) => HelpScreen(),
       },
     );
   }

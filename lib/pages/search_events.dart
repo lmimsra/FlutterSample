@@ -10,7 +10,6 @@ class SearchEventsScreen extends StatelessWidget {
         title: Text('イベント検索'),
       ),
       body: Text('privante イベント検索ページ'),
-
     );
   }
 }

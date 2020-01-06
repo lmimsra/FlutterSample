@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:privante/pages/my_events.dart';
 import 'package:privante/pages/checked_events.dart';
-import 'package:privante/pages/search_events.dart';
-import 'package:privante/pages/user_info.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -66,12 +64,27 @@ class _MyHomePageState extends State<MyHomePage> {
     return _currentIndex == 2 ? 0 : _currentIndex;
   }
 
+  String getAppBarTitle() {
+    switch (_currentIndex) {
+      case 0:
+        return '登録済みイベント';
+        break;
+      case 1:
+        return 'Myイベント';
+        break;
+      default:
+        {
+          return '';
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(getAppBarTitle()),
         leading: IconButton(
           icon: Icon(Icons.account_circle),
           onPressed: () {
@@ -79,24 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
-//      body: Center(
-//        child: Column(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Text(
-//              'You have pushed the button this many times:',
-//            ),
-//            Text(
-//              '$_counter',
-//              style: Theme.of(context).textTheme.display1,
-//            ),
-//            Text(
-//              _buttonText,
-//              style: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
-//            )
-//          ],
-//        ),
-//      ),
       body: switchPages(),
       floatingActionButton: FloatingActionButton(
         onPressed: _pushNavigate,
@@ -174,8 +169,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               title: Text('お問合せ'),
               onTap: () {
-                setState(() => _buttonText = 'Tokyo, Japan');
                 Navigator.pop(context);
+                Navigator.pushNamed(context, '/help');
               },
             ),
           ],
