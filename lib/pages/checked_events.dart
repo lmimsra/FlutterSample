@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'event_detail.dart';
 
 class CheckedEventsScreen extends StatelessWidget {
-  CheckedEventsScreen({Key key, @required this.count}) : super(key: key);
-  final int count;
+  CheckedEventsScreen({Key key}) : super(key: key);
 
   List<Widget> getItemList() {
     List<Widget> returnVal = [];
