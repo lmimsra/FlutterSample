@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:privante/pages/event_detail.dart';
-import 'package:privante/state/home_change_notifer.dart';
+import 'package:privante/states/home_change_notifer.dart';
 import 'package:provider/provider.dart';
 
 class MyEventsScreen extends StatelessWidget {
