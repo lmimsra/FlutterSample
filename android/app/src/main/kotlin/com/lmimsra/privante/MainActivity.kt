@@ -1,4 +1,4 @@
-package com.lmimsra.sample_flutter_app
+package com.lmimsra.privante
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
