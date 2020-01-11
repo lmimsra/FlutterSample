@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/pages/help.dart';
 import 'package:privante/pages/search_events.dart';
 import 'package:privante/pages/user_info.dart';

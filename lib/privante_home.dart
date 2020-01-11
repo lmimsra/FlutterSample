@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/pages/my_events.dart';
 import 'package:privante/pages/checked_events.dart';
 import 'package:privante/states/home_change_notifer.dart';
@@ -139,6 +140,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/userInfo');
+                  },
+                ),
+                ListTile(
+                  title: Text('サインイン'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return SignInScreen();
+                      },
+                      fullscreenDialog: true
+                    ));
                   },
                 ),
                 Divider(),
