@@ -16,7 +16,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 //  現在ホーム画面に表示されているページ
   int _currentIndex = 0;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   Widget switchPages() {
     switch (_currentIndex) {
@@ -85,15 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return ChangeNotifierProvider(
         create: (_) => HomeChangeNotifier(),
         child: Scaffold(
-          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(getAppBarTitle()),
-            leading: IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: () {
-                _scaffoldKey.currentState.openDrawer();
-              },
-            ),
           ),
           body: switchPages(),
           floatingActionButton: FloatingActionButton(
