@@ -13,6 +13,7 @@ class _LandingScreenState extends State<LandingScreen>{
   FirebaseUser _user;
 
   void _initUser() async{
+    // TODO: ログイン情報を保持できるようにする
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     _user = user;
   }
