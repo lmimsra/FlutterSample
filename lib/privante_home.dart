@@ -6,9 +6,6 @@ import 'package:privante/states/home_change_notifer.dart';
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -134,18 +131,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.pushNamed(context, '/userInfo');
                   },
                 ),
-                ListTile(
-                  title: Text('サインイン'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return SignInScreen();
-                      },
-                      fullscreenDialog: true
-                    ));
-                  },
-                ),
+//                ListTile(
+//                  title: Text('サインイン'),
+//                  onTap: () {
+//                    Navigator.pop(context);
+//                    Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (BuildContext context) {
+//                              return SignInScreen();
+//                            },
+//                            fullscreenDialog: true));
+//                  },
+//                ),
                 Divider(),
                 ListTile(
                   title: Text('ヘルプ'),

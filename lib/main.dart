@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:privante/landing.dart';
 import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/pages/help.dart';
 import 'package:privante/pages/search_events.dart';
@@ -15,7 +16,7 @@ class RootWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: MyHomePage(title: 'privante'),
+      home: LandingScreen(),
       routes: <String, WidgetBuilder> {
         '/userInfo': (BuildContext context) => UserInfoScreen(),
         '/eventSearch': (BuildContext context) => SearchEventsScreen(),

@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:privante/components/sign_in_button.dart';
 import 'package:privante/components/social_sign_in_button.dart';
 
+// ignore: must_be_immutable
 class SignInScreen extends StatelessWidget {
+  SignInScreen({@required this.onSignIn});
+
+  Function(FirebaseUser) onSignIn;
+
+//  匿名ユーザーのログイン処理
   Future<void> _signInAnonymously() async {
     try {
       final authResult = await FirebaseAuth.instance.signInAnonymously();
-      print('${authResult.user.uid}');
+      onSignIn(authResult.user);
     } catch (e) {
       print(e.toString());
     }
@@ -68,7 +74,7 @@ class SignInScreen extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             SignInButton(
-              text: 'Go anonymous',
+              text: 'サインインせず使用',
               textColor: Colors.black,
               color: Colors.lime[300],
               onPressed: () => _signInAnonymously(),
