@@ -1,28 +1,30 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/privante_home.dart';
+import 'package:privante/states/home_change_notifer.dart';
+import 'package:provider/provider.dart';
 
-class LandingScreen extends StatefulWidget{
+class LandingScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen>{
+class _LandingScreenState extends State<LandingScreen> {
   FirebaseUser _user;
 
-  void _initUser() async{
+  void _initUser() async {
     // TODO: ログイン情報を保持できるようにする
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     _user = user;
   }
 
-  void _updateUser(FirebaseUser user){
+  void _updateUser(FirebaseUser user) {
     setState(() {
       _user = user;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     _initUser();
@@ -31,7 +33,10 @@ class _LandingScreenState extends State<LandingScreen>{
         onSignIn: _updateUser,
       );
     }
-    return MyHomePage();
+    return ChangeNotifierProvider(
+        create: (_) => HomeChangeNotifier(),
+        child: MyHomePage(
+          onSignOut: () => _updateUser(null),
+        ));
   }
-
 }

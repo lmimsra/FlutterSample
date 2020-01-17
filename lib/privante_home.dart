@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/pages/my_events.dart';
@@ -5,17 +6,22 @@ import 'package:privante/pages/checked_events.dart';
 import 'package:privante/states/home_change_notifer.dart';
 import 'package:provider/provider.dart';
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+class MyHomePage extends StatelessWidget {
+  MyHomePage({@required this.onSignOut});
 
-class _MyHomePageState extends State<MyHomePage> {
-//  現在ホーム画面に表示されているページ
-  int _currentIndex = 0;
+  final VoidCallback onSignOut;
 
-  Widget switchPages() {
-    switch (_currentIndex) {
+  Future<void> _signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      onSignOut();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Widget switchPages(int index) {
+    switch (index) {
       case 0:
         return CheckedEventsScreen();
         break;
@@ -29,8 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _pushNavigate() {
-    switch (_currentIndex) {
+  void _pushNavigate(int index, BuildContext context) {
+    switch (index) {
       case 0:
         Navigator.pushNamed(context, '/eventSearch');
         break;
@@ -42,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Icon _getFloatButtonIcon() {
-    switch (_currentIndex) {
+  Icon _getFloatButtonIcon(int index) {
+    switch (index) {
       case 0:
         return Icon(Icons.search);
         break;
@@ -57,12 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  int getCurrentIndex() {
-    return _currentIndex == 2 ? 0 : _currentIndex;
-  }
-
-  String getAppBarTitle() {
-    switch (_currentIndex) {
+  String getAppBarTitle(int index) {
+    switch (index) {
       case 0:
         return '登録済みイベント';
         break;
@@ -78,59 +80,68 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (_) => HomeChangeNotifier(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(getAppBarTitle()),
+    final notifier = Provider.of<HomeChangeNotifier>(context);
+    final index = notifier.homePageIndex;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(getAppBarTitle(index)),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'ログアウト',
+              style: TextStyle(fontSize: 15.0, color: Colors.white),
+            ),
+            onPressed: _signOut,
+          )
+        ],
+      ),
+      body: switchPages(index),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _pushNavigate(index, context);
+        },
+        tooltip: 'navigate',
+        child: _getFloatButtonIcon(index),
+      ),
+      bottomNavigationBar: new BottomNavigationBar(
+        items: [
+          new BottomNavigationBarItem(
+            icon: const Icon(Icons.playlist_add_check),
+            title: new Text('登録済みイベント'),
           ),
-          body: switchPages(),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _pushNavigate,
-            tooltip: 'navigate',
-            child: _getFloatButtonIcon(),
-          ),
-          bottomNavigationBar: new BottomNavigationBar(
-            items: [
-              new BottomNavigationBarItem(
-                icon: const Icon(Icons.playlist_add_check),
-                title: new Text('登録済みイベント'),
+          new BottomNavigationBarItem(
+            icon: const Icon(Icons.border_color),
+            title: new Text('Myイベント'),
+          )
+        ],
+        currentIndex: index,
+        onTap: (int index) {
+          notifier.updateHomePageIndex(index);
+        },
+      ),
+      // サイドメニュー
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Text(
+                'メニュー',
+                style: TextStyle(fontSize: 24, color: Colors.white),
               ),
-              new BottomNavigationBarItem(
-                icon: const Icon(Icons.border_color),
-                title: new Text('Myイベント'),
-              )
-            ],
-            currentIndex: getCurrentIndex(),
-            onTap: (int index) {
-              setState(() {
-                this._currentIndex = index;
-              });
-            },
-          ),
-          // サイドメニュー
-          drawer: Drawer(
-            child: ListView(
-              children: <Widget>[
-                DrawerHeader(
-                  child: Text(
-                    'メニュー',
-                    style: TextStyle(fontSize: 24, color: Colors.white),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.deepOrange,
-                  ),
-                  // padding margin の設定
-                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-                  margin: EdgeInsets.only(bottom: 8.0),
-                ),
-                ListTile(
-                  title: Text('ユーザー情報'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/userInfo');
-                  },
-                ),
+              decoration: BoxDecoration(
+                color: Colors.deepOrange,
+              ),
+              // padding margin の設定
+              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              margin: EdgeInsets.only(bottom: 8.0),
+            ),
+            ListTile(
+              title: Text('ユーザー情報'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/userInfo');
+              },
+            ),
 //                ListTile(
 //                  title: Text('サインイン'),
 //                  onTap: () {
@@ -144,17 +155,17 @@ class _MyHomePageState extends State<MyHomePage> {
 //                            fullscreenDialog: true));
 //                  },
 //                ),
-                Divider(),
-                ListTile(
-                  title: Text('ヘルプ'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/help');
-                  },
-                ),
-              ],
+            Divider(),
+            ListTile(
+              title: Text('ヘルプ'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/help');
+              },
             ),
-          ),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }
