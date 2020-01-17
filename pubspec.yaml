@@ -43,6 +43,7 @@ flutter:
   assets:
     - images/facebook-logo.png
     - images/google-logo.png
+    - images/twitter-logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

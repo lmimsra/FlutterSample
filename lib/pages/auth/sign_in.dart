@@ -60,6 +60,14 @@ class SignInScreen extends StatelessWidget {
               onPressed: () {},
             ),
             SizedBox(height: 8.0),
+            SocialSignInButton(
+              assetName: 'images/twitter-logo.png',
+              text: 'Sign in with Twitter',
+              textColor: Colors.white,
+              color: Color(0xFF1DA1F2),
+              onPressed: () {},
+            ),
+            SizedBox(height: 8.0),
             SignInButton(
               text: 'Sign in with email',
               textColor: Colors.white,
