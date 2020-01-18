@@ -82,7 +82,7 @@ class SignInScreen extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             SignInButton(
-              text: 'サインインせず使用',
+              text: '仮アカウントで始める',
               textColor: Colors.black,
               color: Colors.lime[300],
               onPressed: () => _signInAnonymously(),

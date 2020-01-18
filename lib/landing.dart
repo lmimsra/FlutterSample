@@ -13,12 +13,15 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   FirebaseUser _user;
 
-  void _initUser() async {
-    // TODO: ログイン情報を保持できるようにする
+  Future<void> _checkCurrentUser() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    _user = user;
+    _updateUser(user);
   }
-
+  @override
+  void initState() {
+    super.initState();
+    _checkCurrentUser();
+  }
   void _updateUser(FirebaseUser user) {
     setState(() {
       _user = user;
@@ -27,7 +30,6 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _initUser();
     if (_user == null) {
       return SignInScreen(
         onSignIn: _updateUser,

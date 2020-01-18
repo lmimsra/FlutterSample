@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/pages/my_events.dart';
 import 'package:privante/pages/checked_events.dart';
 import 'package:privante/states/home_change_notifer.dart';
@@ -10,6 +9,7 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({@required this.onSignOut});
 
   final VoidCallback onSignOut;
+
   // サインアウト処理
   Future<void> _signOut() async {
     try {
@@ -85,15 +85,6 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(getAppBarTitle(index)),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'ログアウト',
-              style: TextStyle(fontSize: 15.0, color: Colors.white),
-            ),
-            onPressed: _signOut,
-          )
-        ],
       ),
       body: switchPages(index),
       floatingActionButton: FloatingActionButton(
@@ -121,48 +112,58 @@ class MyHomePage extends StatelessWidget {
       ),
       // サイドメニュー
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: <Widget>[
             DrawerHeader(
-              child: Text(
-                'メニュー',
-                style: TextStyle(fontSize: 24, color: Colors.white),
+              child: Align(
+                alignment: FractionalOffset.centerLeft,
+                child: Text(
+                  'メニュー',
+                  style: TextStyle(fontSize: 24, color: Colors.white),
+                ),
               ),
               decoration: BoxDecoration(
                 color: Colors.deepOrange,
               ),
               // padding margin の設定
               padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-              margin: EdgeInsets.only(bottom: 8.0),
+//              margin: EdgeInsets.only(bottom: 8.0),
             ),
-            ListTile(
-              title: Text('ユーザー情報'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/userInfo');
-              },
-            ),
-//                ListTile(
-//                  title: Text('サインイン'),
-//                  onTap: () {
-//                    Navigator.pop(context);
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (BuildContext context) {
-//                              return SignInScreen();
-//                            },
-//                            fullscreenDialog: true));
-//                  },
-//                ),
-            Divider(),
-            ListTile(
-              title: Text('ヘルプ'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/help');
-              },
-            ),
+            Expanded(
+                child: ListView(children: <Widget>[
+              ListTile(
+                title: Text('ユーザー情報'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/userInfo');
+                },
+              ),
+            ])),
+            Container(
+                // This align moves the children to the bottom
+                child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    // This container holds all the children that will be aligned
+                    // on the bottom and should not scroll with the above ListView
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Divider(),
+                        ListTile(
+                          leading: Icon(Icons.close),
+                          title: Text('ログアウト or 仮アカウント削除'),
+                          onTap: _signOut,
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.help),
+                          title: Text('ヘルプ'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/help');
+                          },
+                        )
+                      ],
+                    ))))
           ],
         ),
       ),
