@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:privante/landing.dart';
 import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/pages/help.dart';
@@ -6,7 +7,11 @@ import 'package:privante/pages/search_events.dart';
 import 'package:privante/pages/user_info.dart';
 import 'package:privante/privante_home.dart';
 
-void main() => runApp(RootWidget());
+
+Future main() async {
+  DotEnv().load('.env');
+  runApp(RootWidget());
+}
 
 class RootWidget extends StatelessWidget {
   @override
