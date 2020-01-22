@@ -39,3 +39,6 @@ lib/generated_plugin_registrant.dart
 # firebase setting files
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
+
+# secure file
+.env
