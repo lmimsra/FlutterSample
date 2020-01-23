@@ -54,6 +54,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 // ignore: must_be_immutable
 class TwitterWebView extends StatelessWidget {
   TwitterWebView(this._twitterOauth);
+
   final TwitterOauth _twitterOauth;
 
   Future<String> _getAuthUri() async {
@@ -64,6 +65,7 @@ class TwitterWebView extends StatelessWidget {
   Widget build(BuildContext context) {
     print('開いた');
     return Scaffold(
+        appBar: AppBar(title: Text('twitter login'),),
         body: FutureBuilder(
             future: _getAuthUri(),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -80,7 +82,8 @@ class TwitterWebView extends StatelessWidget {
                 javascriptMode: JavascriptMode.unrestricted,
                 navigationDelegate: (NavigationRequest request) {
                   print('delegate : ${request.url}');
-                  if (request.url.startsWith(DotEnv().env['TWITTER_REDIRECT_URI'])) {
+                  if (request.url
+                      .startsWith(DotEnv().env['TWITTER_REDIRECT_URI'])) {
                     // クエリストリングを取得
                     final String query = request.url.split('?').last;
                     if (query.contains('denied')) {
@@ -119,5 +122,4 @@ class TwitterWebView extends StatelessWidget {
         await FirebaseAuth.instance.signInWithCredential(credential);
     return result.user;
   }
-
 }
