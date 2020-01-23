@@ -152,7 +152,10 @@ class MyHomePage extends StatelessWidget {
                         ListTile(
                           leading: Icon(Icons.close),
                           title: Text('ログアウト or 仮アカウント削除'),
-                          onTap: _signOut,
+                          onTap: () {
+                            Navigator.pop(context);
+                            _signOut();
+                          },
                         ),
                         ListTile(
                           leading: Icon(Icons.help),
