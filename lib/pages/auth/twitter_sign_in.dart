@@ -65,13 +65,15 @@ class TwitterWebView extends StatelessWidget {
   Widget build(BuildContext context) {
     print('開いた');
     return Scaffold(
-        appBar: AppBar(title: Text('twitter login'),),
+        appBar: AppBar(
+          title: Text('twitter login'),
+        ),
         body: FutureBuilder(
             future: _getAuthUri(),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (!snapshot.hasData) {
                 print('グルグル');
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               }
               print('webview表示');
               print(snapshot.data);

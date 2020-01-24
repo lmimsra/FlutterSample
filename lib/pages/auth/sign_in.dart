@@ -47,8 +47,11 @@ class SignInScreen extends StatelessWidget {
       FirebaseUser user = await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TwitterWebView(_twitterOauth)));
-      if(user != null){
+              builder: (context) => TwitterWebView(_twitterOauth),
+              // モーダル表示
+              fullscreenDialog: true
+          ));
+      if (user != null) {
         onSignIn(user);
       }
       print('user is null');
