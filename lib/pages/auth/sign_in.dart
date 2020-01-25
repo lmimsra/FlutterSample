@@ -81,7 +81,7 @@ class SignInScreen extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) => Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
