@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:privante/components/sign_in_button.dart';
 import 'package:privante/components/social_sign_in_button.dart';
+import 'package:privante/pages/auth/mail_sign_in.dart';
 import 'package:privante/pages/auth/twitter_sign_in.dart';
+import 'package:privante/services/auth.dart';
 import 'package:privante/utils/twitter/twitter_oauth.dart';
 
 // ignore: must_be_immutable
@@ -11,6 +13,7 @@ class SignInScreen extends StatelessWidget {
   SignInScreen({@required this.onSignIn});
 
   Function(FirebaseUser) onSignIn;
+  final Auth _auth = Auth();
 
 //  匿名ユーザーのログイン処理
   Future<void> _signInAnonymously() async {
@@ -23,12 +26,17 @@ class SignInScreen extends StatelessWidget {
   }
 
   // メールログイン処理
-  Future<void> _signInWithEmailAndPassword(
-      {@required String email, @required String password}) async {
+  Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     try {
-      final authResult = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      onSignIn(authResult.user);
+      FirebaseUser user = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MailSignInScreen(_auth),
+              // モーダル表示
+              fullscreenDialog: true));
+      if (user != null) {
+        onSignIn(user);
+      }
     } catch (e) {
       print(e.toString());
       // エラー表示の処理追加
@@ -43,17 +51,17 @@ class SignInScreen extends StatelessWidget {
         apiSecretKey: DotEnv().env['TWITTER_API_SECRET'],
         callbackUri: DotEnv().env['TWITTER_REDIRECT_URI'],
       );
-      // ここに遷移ページ作成
+
       FirebaseUser user = await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TwitterWebView(_twitterOauth),
+              builder: (context) => TwitterWebView(_auth),
               // モーダル表示
-              fullscreenDialog: true
-          ));
+              fullscreenDialog: true));
       if (user != null) {
         onSignIn(user);
       }
+
       print('user is null');
     } catch (e) {
       print(e.toString());
@@ -117,7 +125,9 @@ class SignInScreen extends StatelessWidget {
               text: 'Sign in with email',
               textColor: Colors.white,
               color: Colors.teal[700],
-              onPressed: () {},
+              onPressed: () {
+                _signInWithEmailAndPassword(context);
+              },
             ),
             SizedBox(height: 8.0),
             Text(

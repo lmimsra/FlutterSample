@@ -1,65 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:privante/utils/twitter/twitter_oauth.dart';
+import 'package:privante/services/auth.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-//class TwitterOauthPage extends StatefulWidget {
-//  const TwitterOauthPage({Key key}) : super(key: key);
-//
-//  @override
-//  _TwitterOauthPageState createState() => _TwitterOauthPageState();
-//}
-//
-//class _TwitterOauthPageState extends State<TwitterOauthPage> {
-//  TwitterOauth _twitterOauth;
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    _twitterOauth = TwitterOauth(
-//      apiKey: DotEnv().env['TWITTER_API_KEY'],
-//      apiSecretKey: DotEnv().env['TWITTER_API_SECRET'],
-//      callbackUri: DotEnv().env['TWITTER_REDIRECT_URI'],
-//    );
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: const Text('Sign In With Twitter'),
-//      ),
-//      body: Center(
-//        child: RaisedButton(
-//          child: const Text('Sign In With Twitter.'),
-//          onPressed: () async {
-//            final String authorizeUri = await _twitterOauth.getAuthorizeUri();
-//            Navigator.of(context).pushReplacement<Widget, Widget>(
-//              MaterialPageRoute<Widget>(
-//                builder: (BuildContext context) {
-//                  return TwitterWebView(
-////                    uri: authorizeUri,
-//                  );
-//                },
-//              ),
-//            );
-//          },
-//        ),
-//      ),
-//    );
-//  }
-//}
-
-// ignore: must_be_immutable
 class TwitterWebView extends StatelessWidget {
-  TwitterWebView(this._twitterOauth);
+  TwitterWebView(this._auth);
 
-  final TwitterOauth _twitterOauth;
-
-  Future<String> _getAuthUri() async {
-    return await _twitterOauth.getAuthorizeUri();
-  }
+  final Auth _auth;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +17,7 @@ class TwitterWebView extends StatelessWidget {
           title: Text('twitter login'),
         ),
         body: FutureBuilder(
-            future: _getAuthUri(),
+            future: _auth.getTwitterAuthUrl(),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (!snapshot.hasData) {
                 print('グルグル');
@@ -97,8 +45,8 @@ class TwitterWebView extends StatelessWidget {
                       print('ok');
                       final Map<String, String> res =
                           Uri.splitQueryString(query);
-                      _twitterSignin(res).then((FirebaseUser user) {
-                        /// Navigato to Main Page
+                      _auth.signInWithTwitter(res).then((FirebaseUser user) {
+                        /// Navigate to Main Page
                         Navigator.pop(context, user);
                         // 重複pop対策
                         return Future.value(false);
@@ -111,17 +59,5 @@ class TwitterWebView extends StatelessWidget {
                 },
               );
             }));
-  }
-
-  Future<FirebaseUser> _twitterSignin(Map<String, String> token) async {
-    final Map<String, String> oauthToken =
-        await _twitterOauth.getAccessToken(token);
-    final AuthCredential credential = TwitterAuthProvider.getCredential(
-      authToken: oauthToken['oauth_token'],
-      authTokenSecret: oauthToken['oauth_token_secret'],
-    );
-    final AuthResult result =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    return result.user;
   }
 }
