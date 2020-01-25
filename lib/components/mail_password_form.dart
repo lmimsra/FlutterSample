@@ -25,6 +25,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
   final FocusNode _passwordFocusNode = FocusNode();
 
   String get _email => _mailEditingController.text;
+
   String get _password => _passwordEditingController.text;
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
 
@@ -64,6 +65,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
     final flatButtonMessage = _formType == EmailSignInFormType.signIn
         ? 'アカウントがないですか？ 新規登録'
         : 'アカウントお持ちですか？ サインイン';
+    bool submitEnabled = _email.isNotEmpty && _password.isNotEmpty;
     return [
       _buildEmailTextField(),
       SizedBox(
@@ -75,7 +77,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       ),
       FormSubmitButton(
         text: submitButtonMessage,
-        onPressed: _submit,
+        onPressed: submitEnabled ? _submit : null,
       ),
       SizedBox(
         height: 8.0,
@@ -92,9 +94,10 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       controller: _mailEditingController,
       focusNode: _emailFocusNode,
       decoration:
-      InputDecoration(labelText: 'Email', hintText: 'example@sample.com'),
+          InputDecoration(labelText: 'Email', hintText: 'example@sample.com'),
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
+      onChanged: (email) => _updateState(),
       onEditingComplete: _emailEditingComplete,
     );
   }
@@ -108,8 +111,14 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       ),
       obscureText: true,
       textInputAction: TextInputAction.done,
+      onChanged: (password) => _updateState(),
       onEditingComplete: _submit,
     );
+  }
+
+  // 状態更新
+  void _updateState() {
+    setState(() {});
   }
 
   @override
@@ -121,6 +130,5 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _buildChildren()),
     );
-    ;
   }
 }
