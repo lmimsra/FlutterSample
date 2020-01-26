@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:privante/components/form_submit_button.dart';
 import 'package:privante/services/auth.dart';
+import 'package:privante/validators/email_password_form_validator.dart';
 
 enum EmailSignInFormType { signIn, Register }
 
-class MailPasswordForm extends StatefulWidget {
-  const MailPasswordForm({Key key, this.auth}) : super(key: key);
+class MailPasswordForm extends StatefulWidget with EmailAndPasswordValidator {
+  MailPasswordForm({Key key, this.auth}) : super(key: key);
 
   final Auth auth;
 
@@ -28,8 +29,12 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
 
   String get _password => _passwordEditingController.text;
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
+  bool _submitted = false;
 
   void _submit() async {
+    setState(() {
+      _submitted = true;
+    });
     // 登録完了時の処理
     try {
       if (_formType == EmailSignInFormType.signIn) {
@@ -50,6 +55,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
   /// 入力フォーム切替
   void _toggleFormType() {
     setState(() {
+      _submitted = false;
       _formType = _formType == EmailSignInFormType.signIn
           ? EmailSignInFormType.Register
           : EmailSignInFormType.signIn;
@@ -65,7 +71,9 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
     final flatButtonMessage = _formType == EmailSignInFormType.signIn
         ? 'アカウントがないですか？ 新規登録'
         : 'アカウントお持ちですか？ サインイン';
-    bool submitEnabled = _email.isNotEmpty && _password.isNotEmpty;
+    bool submitEnabled = widget.emailValidator.isValid(_email) &&
+        widget.passwordValidator.isValid(_password);
+
     return [
       _buildEmailTextField(),
       SizedBox(
@@ -90,11 +98,15 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
   }
 
   Widget _buildEmailTextField() {
+    bool showErrorMessage =
+        _submitted && !widget.emailValidator.isValid(_email);
     return TextField(
       controller: _mailEditingController,
       focusNode: _emailFocusNode,
-      decoration:
-          InputDecoration(labelText: 'Email', hintText: 'example@sample.com'),
+      decoration: InputDecoration(
+          labelText: 'Email',
+          hintText: 'example@sample.com',
+          errorText: showErrorMessage ? widget.emailValidErrorText : null),
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       onChanged: (email) => _updateState(),
@@ -103,12 +115,15 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
   }
 
   Widget _buildPasswordTextField() {
+    bool showErrorMessage =
+        _submitted && !widget.passwordValidator.isValid(_password);
+
     return TextField(
       controller: _passwordEditingController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
-        labelText: 'Password',
-      ),
+          labelText: 'Password',
+          errorText: showErrorMessage ? widget.passwordValidErrorText : null),
       obscureText: true,
       textInputAction: TextInputAction.done,
       onChanged: (password) => _updateState(),
