@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:privante/components/form_submit_button.dart';
 import 'package:privante/services/auth.dart';
@@ -30,26 +31,39 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
   String get _password => _passwordEditingController.text;
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
   bool _submitted = false;
+  bool _isLoading = false;
 
   void _submit() async {
     setState(() {
       _submitted = true;
+      _isLoading = true;
     });
+    // TODO 3びょう処理遅らせるので、後で削除すること
+    await Future.delayed(Duration(seconds: 3));
     // 登録完了時の処理
+    FirebaseUser user;
     try {
       if (_formType == EmailSignInFormType.signIn) {
-        await _auth.signInWithEmail(email: _email, password: _password);
+        user = await _auth.signInWithEmail(email: _email, password: _password);
       } else {
-        await _auth.createWithEmail(email: _email, password: _password);
+        user = await _auth.createWithEmail(email: _email, password: _password);
       }
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(user);
     } catch (e) {
       print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
+  // 入力完了後の遷移先制御
   void _emailEditingComplete() {
-    FocusScope.of(context).requestFocus(_passwordFocusNode);
+    final newFocus = widget.emailValidator.isValid(_email)
+        ? _passwordFocusNode
+        : _emailFocusNode;
+    FocusScope.of(context).requestFocus(newFocus);
   }
 
   /// 入力フォーム切替
@@ -85,7 +99,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       ),
       FormSubmitButton(
         text: submitButtonMessage,
-        onPressed: submitEnabled ? _submit : null,
+        onPressed: (submitEnabled && !_isLoading) ? _submit : null,
       ),
       SizedBox(
         height: 8.0,
@@ -107,6 +121,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
           labelText: 'Email',
           hintText: 'example@sample.com',
           errorText: showErrorMessage ? widget.emailValidErrorText : null),
+      enabled: _isLoading == false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       onChanged: (email) => _updateState(),
@@ -124,6 +139,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       decoration: InputDecoration(
           labelText: 'Password',
           errorText: showErrorMessage ? widget.passwordValidErrorText : null),
+      enabled: _isLoading == false,
       obscureText: true,
       textInputAction: TextInputAction.done,
       onChanged: (password) => _updateState(),

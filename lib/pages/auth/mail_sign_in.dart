@@ -4,6 +4,7 @@ import 'package:privante/services/auth.dart';
 
 class MailSignInScreen extends StatelessWidget {
   MailSignInScreen(this._auth);
+
   final Auth _auth;
 
   @override
@@ -13,7 +14,8 @@ class MailSignInScreen extends StatelessWidget {
         title: Text('Sign in'),
         elevation: 2.0,
       ),
-      body: Card(child: MailPasswordForm(auth: _auth)),
+      body: SingleChildScrollView(
+          child: Card(child: MailPasswordForm(auth: _auth))),
       backgroundColor: Colors.grey[200],
     );
   }

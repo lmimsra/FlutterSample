@@ -75,7 +75,7 @@ class SignInScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('privante'),
       ),
-      body: _buildContent(context),
+      body: SingleChildScrollView(child: _buildContent(context)),
       backgroundColor: Colors.grey[200],
     );
   }
@@ -86,6 +86,9 @@ class SignInScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            SizedBox(
+              height: 48.0,
+            ),
             Text(
               'サインイン',
               textAlign: TextAlign.center,
