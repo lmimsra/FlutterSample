@@ -151,6 +151,7 @@ class MyHomePage extends StatelessWidget {
                       children: <Widget>[
                         Divider(),
                         ListTile(
+                          // TODO 匿名アカウント時には表示しない
                           leading: Icon(Icons.close),
                           title: Text('ログアウト or 仮アカウント削除'),
                           onTap: () {

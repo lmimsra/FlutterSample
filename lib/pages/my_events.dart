@@ -19,6 +19,7 @@ class MyEventsScreen extends StatelessWidget {
               height: 10.0,
             ),
             ListTile(
+              // TODO 文字列の折り返しをサポートすること。
                 leading: Image.network(
                   'https://bulma.io/images/placeholders/96x96.png',
                 ),
