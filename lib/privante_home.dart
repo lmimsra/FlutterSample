@@ -17,6 +17,7 @@ class MyHomePage extends StatelessWidget {
       onSignOut();
     } catch (e) {
       print(e.toString());
+      // TODO エラー表示
     }
   }
 

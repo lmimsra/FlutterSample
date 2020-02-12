@@ -38,8 +38,8 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       _submitted = true;
       _isLoading = true;
     });
-    // TODO 3びょう処理遅らせるので、後で削除すること
-    await Future.delayed(Duration(seconds: 3));
+    // TODO 1びょう処理遅らせるので、後で削除すること
+    await Future.delayed(Duration(seconds: 1));
     // 登録完了時の処理
     FirebaseUser user;
     try {
@@ -51,6 +51,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       Navigator.of(context).pop(user);
     } catch (e) {
       print(e.toString());
+      // TODO エラー表示
     } finally {
       setState(() {
         _isLoading = false;

@@ -22,6 +22,7 @@ class SignInScreen extends StatelessWidget {
       onSignIn(authResult.user);
     } catch (e) {
       print(e.toString());
+      // TODO エラー表示
     }
   }
 
@@ -39,7 +40,7 @@ class SignInScreen extends StatelessWidget {
       }
     } catch (e) {
       print(e.toString());
-      // エラー表示の処理追加
+      // TODO エラー表示
     }
   }
 
@@ -65,7 +66,7 @@ class SignInScreen extends StatelessWidget {
       print('user is null');
     } catch (e) {
       print(e.toString());
-      // エラー表示の処理追加
+      // TODO エラー表示
     }
   }
 
