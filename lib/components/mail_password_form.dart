@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:privante/components/form_submit_button.dart';
+import 'package:privante/components/platform_alert_dialog.dart';
 import 'package:privante/services/auth.dart';
 import 'package:privante/validators/email_password_form_validator.dart';
 
@@ -50,8 +53,13 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
       }
       Navigator.of(context).pop(user);
     } catch (e) {
+      //TODO 後で消すprint
       print(e.toString());
-      // TODO エラー表示
+      PlatformAlertDialog(
+        title: "Sign in failed",
+        content: e.toString(),
+        defaultActionText: "OK",
+      ).show(context);
     } finally {
       setState(() {
         _isLoading = false;
