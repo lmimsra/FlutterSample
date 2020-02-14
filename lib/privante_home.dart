@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:privante/components/platform_alert_dialog.dart';
 import 'package:privante/pages/my_events.dart';
 import 'package:privante/pages/checked_events.dart';
 import 'package:privante/states/home_change_notifer.dart';
@@ -18,6 +19,18 @@ class MyHomePage extends StatelessWidget {
     } catch (e) {
       print(e.toString());
       // TODO エラー表示
+    }
+  }
+
+  Future<void> _confirmSignOut(BuildContext context) async {
+    final didRequestSignOut = await PlatformAlertDialog(
+      title: "Logout",
+      content: "本当にログアウトしてよろしいでしょうか？",
+      defaultActionText: "Logoutする",
+      cancelActionText: "キャンセル",
+    ).show(context);
+    if (didRequestSignOut == true) {
+      _signOut();
     }
   }
 
@@ -156,7 +169,7 @@ class MyHomePage extends StatelessWidget {
                           title: Text('ログアウト or 仮アカウント削除'),
                           onTap: () {
                             Navigator.pop(context);
-                            _signOut();
+                            _confirmSignOut(context);
                           },
                         ),
                         ListTile(

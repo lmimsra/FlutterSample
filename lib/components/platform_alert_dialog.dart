@@ -9,12 +9,14 @@ class PlatformAlertDialog extends PlatformWidget {
     @required this.title,
     @required this.content,
     @required this.defaultActionText,
+    this.cancelActionText
   })  : assert(title != null),
         assert(content != null),
         assert(defaultActionText != null);
 
   final String title;
   final String content;
+  final String cancelActionText;
   final String defaultActionText;
 
   Future<bool> show(BuildContext context) async {
@@ -46,12 +48,20 @@ class PlatformAlertDialog extends PlatformWidget {
   }
 
   List<Widget> _buildActions(BuildContext context) {
-    return [
-      FlatButton(
+    final actions = <Widget>[];
+    if (cancelActionText != null) {
+      actions.add(PlatformAlertDialogAction(
+        child: Text(cancelActionText),
+        onPressed: () => Navigator.of(context).pop(false),
+      ));
+    }
+    actions.add(
+      PlatformAlertDialogAction(
         child: Text(defaultActionText),
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () => Navigator.of(context).pop(true),
       )
-    ];
+    );
+    return actions;
   }
 }
 
