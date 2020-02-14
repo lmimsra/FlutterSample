@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:privante/components/platform_widget.dart';
@@ -15,12 +17,16 @@ class PlatformAlertDialog extends PlatformWidget {
   final String content;
   final String defaultActionText;
 
-  Future<bool> show(BuildContext context) async{
-    return await showDialog<bool>(
-      context: context,
-      builder: (context) => this
-    );
+  Future<bool> show(BuildContext context) async {
+    return Platform.isIOS
+        ? await showCupertinoDialog(
+            context: context, builder: (context) => this)
+        : await showDialog<bool>(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => this);
   }
+
   @override
   Widget buildCupertionWidget(BuildContext context) {
     return CupertinoAlertDialog(
@@ -51,6 +57,7 @@ class PlatformAlertDialog extends PlatformWidget {
 
 class PlatformAlertDialogAction extends PlatformWidget {
   PlatformAlertDialogAction({this.child, this.onPressed});
+
   final Widget child;
   final VoidCallback onPressed;
 
