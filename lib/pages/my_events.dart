@@ -19,17 +19,19 @@ class MyEventsScreen extends StatelessWidget {
               height: 10.0,
             ),
             ListTile(
-              // TODO 文字列の折り返しをサポートすること。
+                // TODO 文字列の折り返しをサポートすること。
                 leading: Image.network(
                   'https://bulma.io/images/placeholders/96x96.png',
                 ),
                 title: Row(children: <Widget>[
-                  Text('my testevent name ' + events.myEvents.elementAt(i).toString()),
+                  Text('my testevent name ' +
+                      events.myEvents.elementAt(i).toString()),
                   Text(' test other $i')
                 ]),
                 subtitle: Container(
                   padding: EdgeInsets.only(top: 5.0),
-                  child: Text('message ' + events.myEvents.elementAt(i).toString()),
+                  child: Text(
+                      'message ' + events.myEvents.elementAt(i).toString()),
                 ),
                 onTap: () {
                   Navigator.push(
