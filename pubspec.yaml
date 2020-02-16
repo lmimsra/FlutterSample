@@ -30,6 +30,7 @@ dependencies:
   webview_flutter: ^0.3.19+5
   firebase_core: ^0.4.4
   cloud_firestore: ^0.13.2+1
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
