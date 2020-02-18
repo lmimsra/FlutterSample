@@ -1,10 +1,23 @@
+import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
+class User {
+  final String id;
+  final String name;
+  final String imageUrl;
+  String description;
+  int sex;
+  DateTime birthday;
+  int age;
+  DateTime createdAt;
 
-class User{
-  final FirebaseUser _firebaseUser;
-
-  User(this._firebaseUser);
-
-  FirebaseUser get firebaseUser => _firebaseUser;
+  User({
+    @required this.id,
+    @required this.name,
+    @required this.imageUrl,
+    this.description,
+    this.sex,
+    this.birthday,
+    this.age,
+    this.createdAt,
+  });
 }
