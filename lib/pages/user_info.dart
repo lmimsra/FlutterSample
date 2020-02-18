@@ -1,12 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:privante/models/user.dart';
+import 'package:privante/services/database.dart';
 
 class UserInfoScreen extends StatelessWidget {
   UserInfoScreen({Key key}) : super(key: key);
 
-  Future<String> _getUserInfo() async {
+  // User情報取得
+  Future<User> _getUserInfo() async {
     final FirebaseUser _user = await FirebaseAuth.instance.currentUser();
-    return 'uid: ${_user.uid} display Name: ${_user.displayName} email: ${_user.email}';
+    final database = FirestoreDatabases(uid: _user.uid);
+    return await database.getUserInfo(_user.uid);
   }
 
   @override
@@ -18,12 +23,12 @@ class UserInfoScreen extends StatelessWidget {
       body: Center(
         child: FutureBuilder(
           future: _getUserInfo(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
             if (!snapshot.hasData) {
               // データの取得に時間がかかる場合は
               return CircularProgressIndicator();
             }
-            return Text(snapshot.data);
+            return Text(snapshot.data.name);
           },
         ),
       ),
