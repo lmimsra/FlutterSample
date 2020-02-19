@@ -24,19 +24,22 @@ class FirestoreDatabases implements Database {
     return await Firestore.instance.document(path).get();
   }
 
+  // ユーザー情報を取得してUserオブジェクトで返却
   Future<User> getUserInfo(String uid) async {
     final path = DataPath.user(uid: uid);
     // firebaseのデータ取得
     var userData = await Firestore.instance.document(path).get();
     if (userData.data == null)
-      return User(id: uid, name: "匿名ユーザー", imageUrl: "");
-    return new User(
-      id: uid,
-      name: userData.data['name'],
-      imageUrl: userData.data['imageUrl'],
-      description: userData.data['description'],
-      age: userData.data['age'],
-      createdAt: userData.data['created_at'].toDate(),
-    );
+      return User(
+          id: uid,
+          name: '匿名ユーザー',
+          imageUrl: 'https://bulma.io/images/placeholders/96x96.png',
+          description: '秘密');
+    return User.fromJson(userData.data);
+  }
+
+  Future<void> setUserInfo(User user) async {
+    final path = DataPath.user(uid: user.id);
+    return await Firestore.instance.document(path).setData(user.toJson());
   }
 }

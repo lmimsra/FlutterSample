@@ -32,7 +32,7 @@ class User {
         sex = json['sex'],
         birthday = json['birthday'],
         age = json['age'],
-        createdAt = json['createdAt'];
+        createdAt = json['createdAt'].toDate();
 
   // json形式にマッピング
   Map<String, dynamic> toJson() => {

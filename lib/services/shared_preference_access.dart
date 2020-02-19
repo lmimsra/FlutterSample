@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:privante/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceAccess {
@@ -22,8 +23,8 @@ class SharedPreferenceAccess {
   Future<bool> setIsLogin(bool isLogin) => prefs.setBool(isLoginKey, isLogin);
 
 // ユーザー情報の登録、取得
-  Map getUserInfo() => jsonDecode(prefs.getString(userInfoKey));
+  User getUserInfo() => User.fromJson(jsonDecode(prefs.getString(userInfoKey)));
 
-  Future<bool> setUserInfo(Map userInfo) =>
-      prefs.setString(userInfoKey, jsonEncode(userInfo));
+  Future<bool> setUserInfo(User user) =>
+      prefs.setString(userInfoKey, jsonEncode(user.toJson()));
 }

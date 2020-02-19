@@ -34,6 +34,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // 表示する画面の切替
   Widget switchPages(int index) {
     switch (index) {
       case 0:
@@ -49,6 +50,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // フロートボタン押下時の遷移先切替
   void _pushNavigate(int index, BuildContext context) {
     switch (index) {
       case 0:
@@ -62,6 +64,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // 右下フロートボタンのアイコン切替
   Icon _getFloatButtonIcon(int index) {
     switch (index) {
       case 0:
@@ -77,6 +80,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // 画面の表示に応じてタイトルバーの文言切替
   String getAppBarTitle(int index) {
     switch (index) {
       case 0:

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:privante/components/sign_in_button.dart';
 import 'package:privante/components/social_sign_in_button.dart';
+import 'package:privante/models/user.dart';
 import 'package:privante/pages/auth/mail_sign_in.dart';
 import 'package:privante/pages/auth/twitter_sign_in.dart';
 import 'package:privante/services/auth.dart';
+import 'package:privante/services/database.dart';
 import 'package:privante/utils/twitter/twitter_oauth.dart';
 
 // ignore: must_be_immutable
@@ -60,6 +62,14 @@ class SignInScreen extends StatelessWidget {
               // モーダル表示
               fullscreenDialog: true));
       if (user != null) {
+        final database = FirestoreDatabases(uid: user.uid);
+        await database.setUserInfo(User(
+          id: user.uid,
+          name: user.displayName,
+          imageUrl: user.photoUrl,
+          description: '初めまして！',
+          createdAt: DateTime.now(),
+        ));
         onSignIn(user);
       }
 
