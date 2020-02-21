@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:privante/components/sign_in_button.dart';
 import 'package:privante/components/social_sign_in_button.dart';
 import 'package:privante/models/user.dart';
@@ -8,7 +7,6 @@ import 'package:privante/pages/auth/mail_sign_in.dart';
 import 'package:privante/pages/auth/twitter_sign_in.dart';
 import 'package:privante/services/auth.dart';
 import 'package:privante/services/database.dart';
-import 'package:privante/utils/twitter/twitter_oauth.dart';
 
 // ignore: must_be_immutable
 class SignInScreen extends StatelessWidget {
@@ -49,12 +47,6 @@ class SignInScreen extends StatelessWidget {
   // Twitterログイン処理
   Future<void> _signInWithTwitter(BuildContext context) async {
     try {
-      TwitterOauth _twitterOauth = TwitterOauth(
-        apiKey: DotEnv().env['TWITTER_API_KEY'],
-        apiSecretKey: DotEnv().env['TWITTER_API_SECRET'],
-        callbackUri: DotEnv().env['TWITTER_REDIRECT_URI'],
-      );
-
       FirebaseUser user = await Navigator.push(
           context,
           MaterialPageRoute(

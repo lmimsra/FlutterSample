@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:privante/landing.dart';
-import 'package:privante/pages/auth/sign_in.dart';
 import 'package:privante/pages/help.dart';
 import 'package:privante/pages/search_events.dart';
 import 'package:privante/pages/user_info.dart';
-import 'package:privante/privante_home.dart';
-
 
 Future main() async {
   DotEnv().load('.env');
@@ -22,7 +19,7 @@ class RootWidget extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
       ),
       home: LandingScreen(),
-      routes: <String, WidgetBuilder> {
+      routes: <String, WidgetBuilder>{
         '/userInfo': (BuildContext context) => UserInfoScreen(),
         '/eventSearch': (BuildContext context) => SearchEventsScreen(),
         '/help': (BuildContext context) => HelpScreen(),
