@@ -15,11 +15,11 @@ class User {
     @required this.id,
     @required this.name,
     @required this.imageUrl,
-    this.description,
+    @required this.description,
+    @required this.createdAt,
     this.sex,
     this.birthday,
     this.age,
-    this.createdAt,
   });
 
   // json形式からclassに変換

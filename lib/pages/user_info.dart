@@ -9,7 +9,7 @@ class UserInfoScreen extends StatelessWidget {
   // User情報取得
   Future<User> _getUserInfo() async {
     final FirebaseUser _user = await FirebaseAuth.instance.currentUser();
-    final database = FirestoreDatabases(uid: _user.uid);
+    final database = FirestoreDatabases();
     print(_user.uid);
     return await database.getUserInfo(_user.uid);
   }
