@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:privante/components/sign_in_button.dart';
 import 'package:privante/components/social_sign_in_button.dart';
 import 'package:privante/models/user.dart';
 import 'package:privante/pages/auth/mail_sign_in.dart';
 import 'package:privante/pages/auth/twitter_sign_in.dart';
 import 'package:privante/services/auth.dart';
+import 'package:privante/services/data_path.dart';
 import 'package:privante/services/database.dart';
+import 'package:privante/services/shared_preference_access.dart';
 
 // ignore: must_be_immutable
 class SignInScreen extends StatelessWidget {
@@ -19,6 +22,7 @@ class SignInScreen extends StatelessWidget {
   Future<void> _signInAnonymously() async {
     try {
       final authResult = await FirebaseAuth.instance.signInAnonymously();
+      saveUserData(authResult.user);
       onSignIn(authResult.user);
     } catch (e) {
       print(e.toString());
@@ -32,10 +36,12 @@ class SignInScreen extends StatelessWidget {
       FirebaseUser user = await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MailSignInScreen(_auth),
-              // モーダル表示
-              fullscreenDialog: true));
+            builder: (context) => MailSignInScreen(_auth),
+            // モーダル表示
+            fullscreenDialog: true,
+          ));
       if (user != null) {
+        saveUserData(user);
         onSignIn(user);
       }
     } catch (e) {
@@ -50,26 +56,39 @@ class SignInScreen extends StatelessWidget {
       FirebaseUser user = await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TwitterWebView(_auth),
-              // モーダル表示
-              fullscreenDialog: true));
+            builder: (context) => TwitterWebView(_auth),
+            // モーダル表示
+            fullscreenDialog: true,
+          ));
       if (user != null) {
-        final database = FirestoreDatabases(uid: user.uid);
-        await database.setUserInfo(User(
-          id: user.uid,
-          name: user.displayName,
-          imageUrl: user.photoUrl,
-          description: '初めまして！',
-          createdAt: DateTime.now(),
-        ));
+        saveUserData(user);
         onSignIn(user);
       }
-
-      print('user is null');
     } catch (e) {
       print(e.toString());
       // TODO エラー表示
     }
+  }
+
+  // ログイン後のユーザーデータ登録処理・ローカル保持
+  Future<void> saveUserData(FirebaseUser user) async {
+    final database = FirestoreDatabases();
+    final sharedPreference = SharedPreferenceAccess();
+    final path = DataPath.user(uid: user.uid);
+    final result = await database.checkDocument(path);
+    if (!result) {
+      await database.setUserInfo(User(
+        id: user.uid,
+        name: (user.displayName != null) ? user.displayName : '匿名ユーザー',
+        imageUrl: (user.photoUrl != null)
+            ? user.photoUrl
+            : DotEnv().env['DEFAULT_ICON_URL'],
+        description: 'はじめまして！',
+        createdAt: DateTime.now(),
+      ));
+    }
+    final userData = await database.getUserInfo(user.uid);
+    await sharedPreference.setUserInfo(userData);
   }
 
   @override
@@ -83,6 +102,7 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
+  // ログイン画面
   Widget _buildContent(BuildContext context) => Padding(
         padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 10.0),
         child: Column(

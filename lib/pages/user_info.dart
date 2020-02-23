@@ -8,6 +8,7 @@ class UserInfoScreen extends StatelessWidget {
 
   // User情報取得
   Future<User> _getUserInfo() async {
+    // TODO shared preference を使う形式にしてDBアクセス低減
     final FirebaseUser _user = await FirebaseAuth.instance.currentUser();
     final database = FirestoreDatabases();
     print(_user.uid);

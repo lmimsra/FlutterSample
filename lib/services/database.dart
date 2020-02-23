@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:privante/models/user.dart';
 import 'package:privante/services/data_path.dart';
 
@@ -51,9 +51,9 @@ class FirestoreDatabases implements Database {
     if (userData.data == null)
       return User(
         id: uid,
-        name: '匿名ユーザー',
-        imageUrl: 'https://bulma.io/images/placeholders/96x96.png',
-        description: '秘密',
+        name: '匿名ユーザー?',
+        imageUrl: DotEnv().env['DEFAULT_ICON_URL'],
+        description: 'はじめまして',
         createdAt: DateTime.now(),
       );
     return User.fromJson(userData.data);

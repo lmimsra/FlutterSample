@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:privante/components/platform_alert_dialog.dart';
 import 'package:privante/pages/my_events.dart';
 import 'package:privante/pages/checked_events.dart';
+import 'package:privante/services/shared_preference_access.dart';
 import 'package:privante/states/home_change_notifer.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,9 @@ class MyHomePage extends StatelessWidget {
   // サインアウト処理
   Future<void> _signOut() async {
     try {
+      final sharedPreference = SharedPreferenceAccess();
       await FirebaseAuth.instance.signOut();
+      await sharedPreference.deleteLocalData();
       onSignOut();
     } catch (e) {
       print(e.toString());
