@@ -73,7 +73,6 @@ class SignInScreen extends StatelessWidget {
   // ログイン後のユーザーデータ登録処理・ローカル保持
   Future<void> saveUserData(FirebaseUser user) async {
     final database = FirestoreDatabases();
-    final sharedPreference = SharedPreferenceAccess();
     final path = DataPath.user(uid: user.uid);
     final result = await database.checkDocument(path);
     if (!result) {
@@ -88,7 +87,7 @@ class SignInScreen extends StatelessWidget {
       ));
     }
     final userData = await database.getUserInfo(user.uid);
-    await sharedPreference.setUserInfo(userData);
+    await SharedPreferenceAccess.setUserInfo(userData);
   }
 
   @override

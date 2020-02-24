@@ -3,34 +3,32 @@ import 'dart:convert';
 import 'package:privante/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// sharedPreferenceのアクセス用関数(IOしかないので状態は持たない)
 class SharedPreferenceAccess {
-  SharedPreferences prefs;
   static const userInfoKey = 'userInfo';
-  static const isLoginKey = 'isLogin';
-
-  SharedPreferenceAccess() {
-    initInstance();
-  }
 
   // アクセスするためのインスタンス初期化
-  void initInstance() async {
-    prefs = await SharedPreferences.getInstance();
+  static Future<SharedPreferences> _initInstance() async {
+    return await SharedPreferences.getInstance();
   }
 
-  // ログイン処理を通ったことがあるか確認
-  bool getIsLogin() => prefs.getBool(isLoginKey);
-
-  Future<bool> setIsLogin(bool isLogin) => prefs.setBool(isLoginKey, isLogin);
-
   // ユーザー情報の取得
-  User getUserInfo() => User.fromJson(jsonDecode(prefs.getString(userInfoKey)));
+  static Future<User> getUserInfo() async {
+    final prefs = await _initInstance();
+    final data = prefs.get(userInfoKey);
+    return User.fromJsonForSharedPreference(jsonDecode(prefs.get(userInfoKey)));
+  }
 
   // ユーザー情報の登録
-  Future<bool> setUserInfo(User user) =>
-      prefs.setString(userInfoKey, jsonEncode(user.toJson()));
+  static Future<bool> setUserInfo(User user) async{
+    final prefs = await _initInstance();
+    return prefs.setString(
+        userInfoKey, jsonEncode(user.toJsonForSharedPreference()));
+  }
 
-  // カーカルに保存している情報を全削除
-  Future<void> deleteLocalData() async {
+  // ローカルに保存している情報を全削除
+  static Future<void> deleteLocalData() async {
+    final prefs = await _initInstance();
     await prefs.clear();
   }
 }

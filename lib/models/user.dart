@@ -46,4 +46,28 @@ class User {
         'age': age,
         'createdAt': createdAt,
       };
+
+  // json形式からclassに変換
+  User.fromJsonForSharedPreference(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        imageUrl = json['imageUrl'],
+        email = json['email'],
+        description = json['description'],
+        sex = json['sex'],
+        birthday = json['birthday'],
+        age = json['age'],
+        createdAt = DateTime.parse(json['createdAt']);
+
+  Map<String, dynamic> toJsonForSharedPreference() => {
+    "id": id,
+    'name': name,
+    "imageUrl": imageUrl,
+    'email': email,
+    'description': description,
+    'sex': sex,
+    'birthday': birthday,
+    'age': age,
+    'createdAt': createdAt.toString(),
+  };
 }

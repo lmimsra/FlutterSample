@@ -15,9 +15,8 @@ class MyHomePage extends StatelessWidget {
   // サインアウト処理
   Future<void> _signOut() async {
     try {
-      final sharedPreference = SharedPreferenceAccess();
       await FirebaseAuth.instance.signOut();
-      await sharedPreference.deleteLocalData();
+      await SharedPreferenceAccess.deleteLocalData();
       onSignOut();
     } catch (e) {
       print(e.toString());

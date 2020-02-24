@@ -2,13 +2,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:privante/models/user.dart';
 import 'package:privante/services/database.dart';
+import 'package:privante/services/shared_preference_access.dart';
 
 class UserInfoScreen extends StatelessWidget {
   UserInfoScreen({Key key}) : super(key: key);
 
   // User情報取得
   Future<User> _getUserInfo() async {
-    // TODO shared preference を使う形式にしてDBアクセス低減
+    final user = await SharedPreferenceAccess.getUserInfo();
+    print('GetUserInfo start3');
+    if (user != null) return user;
+
+    // ユーザーが保存されていなかったらfirebaseから直接取得
     final FirebaseUser _user = await FirebaseAuth.instance.currentUser();
     final database = FirestoreDatabases();
     print(_user.uid);
@@ -38,6 +43,7 @@ class UserInfoScreen extends StatelessWidget {
     );
   }
 
+  // 画面の描画
   Widget _buildBody(BuildContext context, User user) {
     Size screenSize = MediaQuery.of(context).size;
     return Padding(
