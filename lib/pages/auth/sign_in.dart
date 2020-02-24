@@ -10,6 +10,7 @@ import 'package:privante/services/auth.dart';
 import 'package:privante/services/data_path.dart';
 import 'package:privante/services/database.dart';
 import 'package:privante/services/shared_preference_access.dart';
+import 'package:privante/utils/image_url_formatter.dart';
 
 // ignore: must_be_immutable
 class SignInScreen extends StatelessWidget {
@@ -80,7 +81,7 @@ class SignInScreen extends StatelessWidget {
         id: user.uid,
         name: (user.displayName != null) ? user.displayName : '匿名ユーザー',
         imageUrl: (user.photoUrl != null)
-            ? user.photoUrl
+            ? ImageUrlFormatter.getOriginalImageUrl(user.photoUrl)
             : DotEnv().env['DEFAULT_ICON_URL'],
         description: 'はじめまして！',
         createdAt: DateTime.now(),
