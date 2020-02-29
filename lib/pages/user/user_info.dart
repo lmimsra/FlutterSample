@@ -10,13 +10,11 @@ class UserInfoScreen extends StatelessWidget {
   // User情報取得
   Future<User> _getUserInfo() async {
     final user = await SharedPreferenceAccess.getUserInfo();
-    print('GetUserInfo start3');
     if (user != null) return user;
 
     // ユーザーが保存されていなかったらfirebaseから直接取得
     final FirebaseUser _user = await FirebaseAuth.instance.currentUser();
     final database = FirestoreDatabases();
-    print(_user.uid);
     return await database.getUserInfo(_user.uid);
   }
 
@@ -53,7 +51,7 @@ class UserInfoScreen extends StatelessWidget {
 //        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           SizedBox(
-            height: screenSize.height / 20,
+            height: screenSize.height / 100,
           ),
           Center(
             child: Container(
@@ -68,22 +66,27 @@ class UserInfoScreen extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(80.0),
                 border: Border.all(
-                  color: Colors.white,
-                  width: 5.0,
+                  color: Colors.grey,
+                  width: 1.0,
                 ),
               ),
             ),
           ),
-          Text(user.name),
-          Text(user.description),
-          Divider(height: screenSize.height / 30, color: Colors.black),
-          Row(
-            children: <Widget>[
-              rowCell(673826, 'FOLLOWERS'),
-              rowCell(275, 'FOLLOWING'),
-            ],
+          Text(user.name, style: TextStyle(fontWeight: FontWeight.bold),),
+          Divider(height: screenSize.height / 30, color: Colors.grey),
+          SizedBox(
+            height: screenSize.height / 100,
           ),
-          Divider(height: screenSize.height / 30, color: Colors.black),
+          Text(user.description),
+//        TODO フォロワーなど詳細の機能をつけたら実装する
+//          Divider(height: screenSize.height / 30, color: Colors.black),
+//          Row(
+//            children: <Widget>[
+//              rowCell(673826, 'FOLLOWERS'),
+//              rowCell(275, 'FOLLOWING'),
+//            ],
+//          ),
+//          Divider(height: screenSize.height / 30, color: Colors.black),
         ],
       ),
     );

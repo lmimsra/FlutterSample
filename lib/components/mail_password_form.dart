@@ -34,6 +34,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
   bool _submitted = false;
   bool _isLoading = false;
 
+  // 登録処理
   void _submit() async {
     setState(() {
       _submitted = true;
