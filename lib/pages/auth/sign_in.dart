@@ -83,7 +83,7 @@ class SignInScreen extends StatelessWidget {
         imageUrl: (user.photoUrl != null)
             ? ImageUrlFormatter.getOriginalImageUrl(user.photoUrl)
             : DotEnv().env['DEFAULT_ICON_URL'],
-        description: 'はじめまして！',
+        description: 'はじめまして！(ユーザー情報の機能拡張まで待っててね)',
         createdAt: DateTime.now(),
       ));
     }
