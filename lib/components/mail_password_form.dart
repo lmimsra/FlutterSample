@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:privante/components/form_submit_button.dart';
@@ -36,6 +34,7 @@ class _MailPasswordFormState extends State<MailPasswordForm> {
   bool _submitted = false;
   bool _isLoading = false;
 
+  // 登録処理
   void _submit() async {
     setState(() {
       _submitted = true;

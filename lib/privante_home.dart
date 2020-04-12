@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:privante/components/platform_alert_dialog.dart';
 import 'package:privante/pages/my_events.dart';
 import 'package:privante/pages/checked_events.dart';
+import 'package:privante/services/shared_preference_access.dart';
 import 'package:privante/states/home_change_notifer.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class MyHomePage extends StatelessWidget {
   Future<void> _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
+      await SharedPreferenceAccess.deleteLocalData();
       onSignOut();
     } catch (e) {
       print(e.toString());
@@ -26,7 +28,7 @@ class MyHomePage extends StatelessWidget {
     final didRequestSignOut = await PlatformAlertDialog(
       title: "Logout",
       content: "本当にログアウトしてよろしいでしょうか？",
-      defaultActionText: "Logoutする",
+      defaultActionText: "ログアウト",
       cancelActionText: "キャンセル",
     ).show(context);
     if (didRequestSignOut == true) {
@@ -34,6 +36,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // 表示する画面の切替
   Widget switchPages(int index) {
     switch (index) {
       case 0:
@@ -49,6 +52,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // フロートボタン押下時の遷移先切替
   void _pushNavigate(int index, BuildContext context) {
     switch (index) {
       case 0:
@@ -62,6 +66,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // 右下フロートボタンのアイコン切替
   Icon _getFloatButtonIcon(int index) {
     switch (index) {
       case 0:
@@ -77,6 +82,7 @@ class MyHomePage extends StatelessWidget {
     }
   }
 
+  // 画面の表示に応じてタイトルバーの文言切替
   String getAppBarTitle(int index) {
     switch (index) {
       case 0:
